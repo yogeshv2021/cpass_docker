@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+   {% include "database_layout.html" %}
+
+    <form action="{{ url_for('save_edit_alias_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+       <input type="text" id="search" name="search" placeholder="Search here by alias name.." class="search" value="" onchange="searchAlias('edit_entries',this.value,'Edit')">
+
+       <div id="edit_entries">
+       </div>
+
+      </dl>
+    </form>
+
+
+  {% endif %}
+
+{% endblock %}

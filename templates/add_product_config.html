@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('save_add_product_config',server=server) }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="product name">Product Name</label></br>
+       <input type="text" class="input" id="product_name" name="product_name" placeholder="Enter Name of your Product Instance"  value="" required></br>
+
+       <label for="sleep name">Wait time after starting product instance</label></br>
+       <input type="text" class="input" id="sleep_name" name="sleep_name" placeholder="Enter Sleep Time to wait to bring product"  value="" required></br>
+
+       <hr color="gray">
+       <h2>Other Configuration Values</h2></br>
+       <hr color="gray">
+
+       <label for="server name">Server Name</label></br>
+       <input type="text" class="input_read_only" id="server_name" name="server_name" placeholder="server_name"  value="{{products[0]}}" readonly></br>
+
+       <label for="server type">Server Type</label></br>
+       <input type="text" class="input_read_only" id="server_type" name="server_type" placeholder="server_type"  value="{{products[4]}}" readonly></br>
+
+       <label for="user name">User Name of Server</label></br>
+       <input type="text" class="input_read_only" id="user_name" name="user_name" placeholder="user_name"  value="{{products[5]}}" readonly></br>
+
+       <label for="wait time">Wait time after starting product instance</label></br>
+       <input type="text" class="input_read_only" id="wait_time" name="wait_time" placeholder="wait_time"  value="{{products[6]}}" readonly></br>
+
+       <label for="time interval">Time Interval between stats capturing</label></br>
+       <input type="text" class="input_read_only" id="time_interval" name="time_interval" placeholder="time_interval"  value="{{products[7]}}" readonly></br>
+
+       <label for="load stats path">Load Statistics Path</label></br>
+       <input type="text" class="input_read_only" id="load_stats_path" name="load_stats_path" placeholder="load_stats_path"  value="{{products[9]}}" readonly></br>
+
+       <label for="server id">Server ID</label></br>
+       <input type="text" class="input_read_only" id="server_id" name="server_id" placeholder="server_id"  value="{{products[14]}}" readonly></br>
+
+       <label for="server mode">Server Mode</label>
+       <input type="text" class="input_read_only" id="server_mode" name="server_mode" placeholder="server_mode"  value="{{products[15]}}" readonly></br>
+
+       <label for="delete frequency">Log File Delete Frequency Interval</label></br>
+       <input type="text" class="input_read_only" id="delete_frequency" name="delete_frequency" placeholder="delete_frequency"  value="{{products[13]}}" readonly></br>
+
+        <input type=submit class="button" value=Add>
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

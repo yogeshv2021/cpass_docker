@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('proceed_download') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt><h4>{{headings[0]}}</h4></br></br>
+
+    <div>
+
+       <label for="stats path">Select load stats path to download report</label></br>
+       <select id="stats_path" name="stats_path" class="input" value="Disable" required>
+         <option value="none">--select--</option>
+
+        {% for path in dir %}
+         <option value="{{ load_stats_base_path }}/{{ path }}">{{ path }}</option>
+        {% endfor %}
+       </select>
+
+       <input type=submit class="button" value="Download Report">
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

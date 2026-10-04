@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+   {% include "database_layout.html" %}
+
+    <form action="{{ url_for('execute_db_load_query') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="db alias">Select the Database</label></br>
+       <select id="db_alias" name="db_alias" class="input" value="Disable" required>
+         <option value="none">--select--</option>
+
+        {% for alias in alias_lists %}
+         <option value="{{ alias }}">{{ alias }}</option>
+        {% endfor %}
+       </select>
+
+       <label for="load alias">Select the Load Type</label></br>
+       <select id="load alias" name="load alias" class="input" value="Disable" required>
+         <option value="none">--select--</option>
+
+        {% for load in load_lists %}
+         <option value="{{ load }}">{{ load }}</option>
+        {% endfor %}
+       </select>
+
+       <input type=submit class="button" value="Execute Queries">
+
+    </div>
+
+      </dl>
+    </form>
+
+
+
+    <hr color="lightblue">
+
+    <button type="button" class="button" onclick='processCheck("query","{{ url_for('current_query_check') }}")'>click Here to know the current query executing</button>
+
+    <div id="query" style="display:none">
+    </div>
+
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <label for="load default choice">Do you want to start load with default scenarios configuration?</label></br>
+
+    <input type="radio" name="load_default_choice" value="YES" onclick='addInstanceHideShowChange("auto_choice","manual_choice")'><b>Yes</b></br></br>
+
+    <input type="radio" name="load_default_choice" value="NO" onclick='addInstanceHideShowChange("manual_choice","auto_choice")'><b>No</b></br></br>
+
+    <div id="manual_choice" style="display:none">
+
+    <form action="{{ url_for('selected_simulator') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <meta id="my_entries_data" data-entries="{{ entries }}">
+
+        <meta id="my_simulators_data" data-simulators="{{ simulators }}">
+
+        <meta id="my_simulator_wise_server_list_data" data-simulator_wise_server_list="{{ simulator_wise_server_list }}">
+
+
+       {% for key,keyvalue in same_sim_prod_in_diff_server_map.items() %}
+
+              <input type="checkbox" id="load_simulator" name="load_simulator" value="" onclick='startSimulatorTypes("{{ key }}","{{ key }}","{{ loop.index0 }}")'><b>{{ key }}</b></br></br>
+
+          <div id="{{ loop.index0 }}">
+          </div>
+
+       {% endfor %}
+
+        <dd><input type=submit class="button" value="Proceed to Bring Applications">
+      </dl>
+    </form>
+
+    </div>
+
+    <div id="auto_choice" style="display:none">
+
+      <form action="{{ url_for('auto_selected_simulator') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <dd><input type=submit class="button" value="Proceed for automatic start scenarios">
+      </dl>
+    </form>
+   </div>
+
+    <hr color="lightblue">
+    <a href="{{ url_for('simulator_choice_list') }}"><button type="button" class="button">Skip to simulator section</button></a>
+    <a href="{{ url_for('start_monitor_simulator') }}"><button type="button" class="button">Monitor Process Activate</button></a>
+
+
+  {% endif %}
+
+{% endblock %}

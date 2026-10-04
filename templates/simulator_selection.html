@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <h2>...Bringing Up Applications..</h2>
+
+    <hr color="lightblue">
+
+    <a href="{{ url_for('bring_up_applications') }}"><button type="button" class="button">Skip</button></a>
+
+    <a href="{{ url_for('stop_load') }}"><button type="button" class="button">Exit Load</button></a>
+
+  {% endif %}
+
+{% endblock %}

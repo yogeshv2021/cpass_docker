@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <label for="load default choice">Do you want to start load with default configuration?</label></br>
+
+    <input type="radio" name="load_default_choice" value="YES" onclick='addInstanceHideShowChange("auto_choice","manual_choice")'><b>Yes</b></br></br>
+
+    <input type="radio" name="load_default_choice" value="NO" onclick='addInstanceHideShowChange("manual_choice","auto_choice")'><b>No</b></br></br>
+
+    <div id="manual_choice" style="display:none">
+
+    <form action="{{ url_for('selected_product') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <meta id="my_entries_data" data-entries="{{ entries }}">
+
+        <meta id="my_servers_data" data-servers="{{ servers }}">
+
+
+       {% for key,value in same_prod_in_diff_server_map.items() %}
+
+          <input type="checkbox" id="load_product" name="load_product" value="" onclick='startServers("{{ key }}","{{ key }}","{{ loop.index0 }}")'><b>{{ key }}</b></br></br>
+
+          <div id="{{ loop.index0 }}">
+          </div>
+
+      {% endfor %}
+
+        <dd><input type=submit class="button" value="Proceed to Select Load Scenarios">
+      </dl>
+    </form>
+
+    </div>
+
+    <div id="auto_choice" style="display:none">
+
+      <form action="{{ url_for('auto_selected_product') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <dd><input type=submit class="button" value="Proceed for automatic start load">
+      </dl>
+    </form>
+
+    <hr color="lightblue">
+
+    <a href="{{ url_for('bring_up_applications') }}"><button type="button" class="button">Skip</button></a>
+
+  {% endif %}
+
+{% endblock %}

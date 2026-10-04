@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('edit_scenario_config',entries=entries) }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+       {% for key,value in entries.items() %}
+
+         {% set server_scenario_list = key.split(';') %}
+
+          <dd><input type="radio" name="load_scenario" value="{{key}}"><b>{{ server_scenario_list[3] }}</b></br></br>
+       {% endfor %}
+
+        <dd><input type=submit class="button" value=Select>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

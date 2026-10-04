@@ -1,0 +1,19 @@
+
+<OSW_data>
+<profile_id>-B</profile_id>
+<src_data>archive/</src_data>
+<hostname>SOLARIS13</hostname>
+<OS_version>SunOS</OS_version>
+<snapFreq>1800</snapFreq>
+<cpuCount>64</cpuCount>
+<device_name_tbl>
+Device                   Average Service Times in Milliseconds
+
+c2t30FE182228FBE4FEd0    16.29
+c2t30FE182228FBE4FEd0s0  16.29
+c0t399ED25AE1583EC4d0    10.78
+c0t399ED25AE1583EC4d0s3  10.78
+c0t367652EC0673A1B6d0    7.45
+c0t367652EC0673A1B6d0s3  7.3
+</device_name_tbl>
+</OSW_data>

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('save_copy_instance_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+       {% for key,value in entries.items() %}
+
+         {% set server_product_instance_list = key.split(';') %}
+
+          <dd><input type="radio" name="load_instance" value="{{key}}"><b>{{ server_product_instance_list[2] }}</b></br></br>
+       {% endfor %}
+
+       <label for="instance name">New Instance Name</label></br>
+       <input type="text" class="input" id="instance_name" name="instance_name" placeholder="Enter name of new instance"  value=""></br>
+
+        <dd><input type=submit class="button" value="Copy">
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

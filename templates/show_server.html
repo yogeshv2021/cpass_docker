@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('show_product_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <meta id="my_entries_data" data-entries="{{ entries }}">
+
+       {% for key,value in same_prod_in_diff_server_map.items() %}
+
+              <input type="radio" name="load_product" value="" onclick='showServers("server_list","{{ key }}","{{ value }}")'><b>{{ key }}</b></br></br>
+
+      {% endfor %}
+
+
+       <div id="server_list" style="display:none">
+
+       </div>
+
+       <div id="product_instance_list" style="display:none">
+       </div>
+
+        <dd><input type=submit class="button" value=Select>
+      </dl>
+    </form>
+
+    <hr color="lightblue">
+    <a href="{{ url_for('show_server_operations') }}"><button type="button" class="button">Server configuration</button></a>
+
+  {% endif %}
+
+{% endblock %}

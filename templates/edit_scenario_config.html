@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('save_edit_scenario_config',entries=entries) }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="scenario name">Scenario Name</label></br>
+       <input type="text" class="input_read_only" id="scenario_name" name="scenario_name" placeholder="scenario_name"  value="{{scenario_config[4]}}" readonly></br>
+
+       <label for="starter script">Starter Script</label></br>
+       <input type="text" class="input" id="starter_script" name="starter_script" placeholder="starter_script"  value="{{scenario_config[5]}}" required></br>
+
+       <label for="call rate">Call Rate</label></br>
+       <input type="text" class="input" id="call_rate" name="call_rate" placeholder="call_rate"  value="{{scenario_config[6]}}" required></br>
+
+       {% if scenario_config[1]=="MGTS" %}
+
+         <label for="scenario type">Scenario Type - Mandatory or Optional</label></br>
+
+         <select id="scenario_url" name="scenario_url" class="input" value="{{scenario_config[11]}}" onchange='showMGTSTimesTimeout("mgts_times_timeout",this.value,"scenario_times","scenario_timeout")' required>
+
+            <option value="{{scenario_config[11]}}" selected hidden>{{scenario_config[11]}}</option>
+            <option value="mandatory">mandatory</option>
+            <option value="optional">optional</option>
+
+         </select>
+
+         {% if scenario_config[11]=="mandatory" %}
+
+         <div id="mgts_times_timeout" style="display:block">
+
+         {% else %}
+
+         <div id="mgts_times_timeout" style="display:none">
+
+         {% endif %}
+
+         <label for="scenario times">Number of Times to Execute Mandatory Scenario</label></br>
+         <input type="text" class="input" id="scenario_times" name="scenario_times" placeholder="scenario_times"  value="{{scenario_config[17]}}" required></br>
+
+         <label for="scenario timeout">Timeout of the Scenario</label></br>
+         <input type="text" class="input" id="scenario_timeout" name="scenario_timeout" placeholder="scenario_timeout"  value="{{scenario_config[21]}}" required></br>
+
+         </div>
+
+      {% else %}
+
+         <label for="scenario url">Scenario URL</label></br>
+         <input type="text" class="input" id="scenario_url" name="scenario_url" placeholder="scenario_url"  value="{{scenario_config[11]}}" required></br>
+      {% endif %}
+
+
+      {% if scenario_config[1]=="SEAGULL" %}
+         <label for="stats file">Scenario Stats File</label></br>
+         <input type="text" class="input" id="stats_file" name="stats_file" placeholder="stats_file"  value="{{scenario_config[28]}}" required></br>
+      {% endif %}
+
+       <label for="scenario mode">Scenario Mode</label></br>
+       <select id="scenario_mode" name="scenario_mode" class="input" value="{{scenario_config[23]}}" onchange='showHideOnState("SCENARIO_SUB_MODE",this.value)' required>
+            <option value="{{scenario_config[23]}}" selected hidden>{{scenario_config[23]}}</option>
+            <option value="STATEFULL">STATEFULL</option>
+            <option value="STATELESS">STATELESS</option>
+      </select>
+
+      {% if scenario_config[23]=="STATEFULL" %}
+
+       <div id="SCENARIO_SUB_MODE" style="display:block">
+
+      {% else %}
+
+       <div id="SCENARIO_SUB_MODE" style="display:none">
+
+      {% endif %}
+
+           <label for="initial count">Number of Initial Request</label></br>
+           <input type="text" class="input" id="initial_count" name="initial_count" placeholder="Enter Number of Initial Requests of the scenario"  value="{{scenario_config[24]}}" required></br>
+
+           <label for="update count">Number of Update Request</label></br>
+           <input type="text" class="input" id="update_count" name="update_count" placeholder="Enter Number of Update Requests of the scenario"  value="{{scenario_config[25]}}" required></br>
+
+           <label for="terminate count">Number of Terminate Request</label></br>
+           <input type="text" class="input" id="terminate_count" name="terminate_count" placeholder="Enter Number of Terminate Requests of the scenario"  value="{{scenario_config[26]}}" required></br>
+
+           <label for="onhold time">Onhold Time of the Scenario</label></br>
+           <input type="text" class="input" id="onhold_time" name="onhold_time" placeholder="Enter On-hold Time of the scenario"  value="{{scenario_config[27]}}" required></br>
+       </div>
+
+       <hr color="gray">
+       <h2>Other Configuration Values</h2></br>
+       <hr color="gray">
+
+       <label for="server name">Server</label></br>
+       <input type="text" class="input_read_only" id="server_name" name="server_name" placeholder="server_name"  value="{{scenario_config[0]}}" readonly></br>
+
+       <label for="simulator name">Simulator</label></br>
+       <input type="text" class="input_read_only" id="simulator_name" name="simulator_name" placeholder="simulator_name"  value="{{scenario_config[1]}}" readonly></br>
+
+       <label for="simulator product">Simulator Product</label></br>
+       <input type="text" class="input_read_only" id="simulator_product_name" name="simulator_product_name" placeholder="simulator_product_name"  value="{{scenario_config[13]}}" readonly></br>
+
+       <label for="server type">Server Type</label></br>
+       <input type="text" class="input_read_only" id="server_type" name="server_type" placeholder="server_type"  value="{{scenario_config[7]}}" readonly></br>
+
+       <label for="user name">User Name of Server</label></br>
+       <input type="text" class="input_read_only" id="user_name" name="user_name" placeholder="user_name"  value="{{scenario_config[8]}}" readonly></br>
+
+       <label for="server id">Server ID</label></br>
+       <input type="text" class="input_read_only" id="server_id" name="server_id" placeholder="server_id"  value="{{scenario_config[9]}}" readonly></br>
+
+       <label for="wait time">Sleep interval between scenarios</label></br>
+       <input type="text" class="input_read_only" id="wait_time" name="wait_time" placeholder="wait_time"  value="{{scenario_config[2]}}" readonly></br>
+
+       <label for="time interval">Global Library Path to Execute Scenarios</label></br>
+       <input type="text" class="input_read_only" id="time_interval" name="time_interval" placeholder="time_interval"  value="{{scenario_config[3]}}" readonly></br>
+
+       {% if scenario_config[1]=="MGTS" %}
+
+       <label for="shelf name">Shelf Name</label></br>
+       <input type="text" class="input_read_only" id="shelf_name" name="shelf_name" placeholder="shelf_name"  value="{{scenario_config[14]}}" readonly></br>
+
+       <label for="assignment name">Assignment Name</label></br>
+       <input type="text" class="input_read_only" id="assignment_name" name="assignment_name" placeholder="assignment_name"  value="{{scenario_config[15]}}" readonly></br>
+
+       <label for="sequence group">Sequence Group Name</label>
+       <input type="text" class="input_read_only" id="seq_group" name="seq_group" placeholder="seq_group"  value="{{scenario_config[16]}}" readonly></br>
+
+       <label for="node name">Node Name</label></br>
+       <input type="text" class="input_read_only" id="node_name" name="node_name" placeholder="node_name"  value="{{scenario_config[20]}}" readonly></br>
+
+       <label for="seq group bkp">Sequence Group Backup Path</label></br>
+       <input type="text" class="input_read_only" id="seq_grp_bkp" name="seq_grp_bkp" placeholder="seq_grp_bkp"  value="{{scenario_config[22]}}" readonly></br>
+
+       {% endif %}
+
+        <input type=submit class="button" value=Edit>
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

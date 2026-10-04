@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('save_add_server_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="server name">Server Name</label></br>
+       <input type="text" class="input" id="server_name" name="server_name" placeholder="Enter the Server Name"  value=""></br>
+
+       <label for="server ip">Server IP</label></br>
+       <input type="text" class="input" id="server_ip" name="server_ip" placeholder="Enter IP Address of Server"  value=""></br>
+
+       <label for="server type">Server Type</label></br>
+       <select id="server_type" name="server_type" class="input" value="" required>
+         <option value="SOLARIS">SOLARIS</option>
+         <option value="LINUX">LINUX</option>
+         <option value="MAC">MAC</option>
+      </select>
+
+       <label for="user name">User Name of Server</label></br>
+       <input type="text" class="input" id="user_name" name="user_name" placeholder="Enter User Name of Server"  value=""></br>
+
+       <label for="ssh key">SSH Key Path of Server</label></br>
+       <input type="text" class="input" id="ssh_key" name="ssh_key" placeholder="Enter SSH Key Path to connect the Server"  value=""></br>
+
+       <label for="server prompt">Server Prompt Symbol of Server</label></br>
+       <input type="text" class="input" id="server_prompt" name="server_prompt" placeholder="Enter Prompt Symbol of Server"  value=""></br>
+
+       <label for="server mode">Server Mode</label>
+       <select id="server_mode" name="server_mode" class="input" value="" required>
+         <option value="APPLICATION">APPLICATION</option>
+         <option value="SIMULATOR">SIMULATOR</option>
+      </select>
+
+       <label for="delete frequency">Log File Delete Frequency Interval</label></br>
+       <input type="text" class="input_read_only" id="delete_frequency" name="delete_frequency" placeholder="Enter Log File Delete Frequency"  value=""></br>
+
+        <input type=submit class="button" value=Add>
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

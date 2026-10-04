@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>OSW Profile 1.0</title>
+<style type="text/css">
+
+body {font-size:medium;
+	  font-family:Geneva, Arial, Helvetica, sans-serif;
+	  line-height: 1.5em;
+	  text-decoration:none;
+	  }
+.intro {text-align:left; font-size:1.0em; margin-top:0; margin-bottom:0 }
+.introheader {font-size:1.25em; color:#0D4988; font-weight:bold }
+.appendixtitle {font-size:1.50em; color:#0D4988; font-weight:bold }
+.appendixheader {font-size:1.25em; color:#0D4988; font-weight:bold }
+
+.graphic {text-align:left; font-size:1.0em; margin-top:0; margin-bottom:0 }
+.graphicheader {font-size:1.25em; color:#0D4988; font-weight:bold }
+.graphicbullet {list-style-type: disc }
+.graphicbold { font-weight:bold }
+.graphictable {background-color:#ECECFF }
+.graphictext {border:1px solid #C4D1E6; background-color:#EEF3F7; padding-left:4; padding-right:4; padding-top:1; padding-bottom:1 }
+.graphicempty {font-size:.5em }
+.graphicback {font-size:1.0em }
+.graphicmissing { background-image: url('OSW_profile_files/missing_graphic.gif') }
+
+.tableborder {border:1px solid #234A82; background-color:#C0C0C0; padding-left:4; padding-right:4; padding-top:1; padding-bottom:1; line-height:100%; margin-top:0; margin-bottom:0 }
+.tableheader { text-align: center; font-family: Arial; margin-top: 0; margin-bottom: 0; font-weight:bold }
+.tabledata  { text-align: left; line-height: 100%; font-family: Courier New; margin-top: 0; margin-bottom: 0; font-size:10pt }
+
+.pageheader {text-align:center; font-size:1.5em; color:#0D4988; font-weight:bold}
+.pagesubheader {text-align:center; font-size:1.0em; line-height:100%; margin-top:0; margin-bottom:0}
+.toc {border:1px solid #C4D1E6; text-align:left; font-size:1.0em; font-style:italic; width:300; padding-left:4; padding-right:4; padding-top:1; padding-bottom:1; background-color:#EEF3F7 }
+.tocheader {color:#0D4988; font-style:normal; font-weight:bold }
+.tocitem {color:#0D4988; margin-left:10 }
+.tocbullet {list-style-type: none }
+
+.emptyline{text-align:justify;
+		   font-size:1.0em; line-height:100%; margin-top:0; margin-bottom:0 }
+
+.instructions{text-align:justify;
+			  font-size:1.0em; line-height:100%; margin-top:0; margin-bottom:0
+			  }
+.legalese {font-size:.6em;
+		   color:#000000;
+		   margin-bottom:0; line-height:100%; margin-top:0
+		   }
+
+</style>
+
+<SCRIPT LANGUAGE=JavaScript>
+//XML data files
+var xmlFileName="OSW_profile_files/OSWdata.xml";
+var browserType = "IE";	//Variable used to hold the browser name
+var hostname="";
+var page_title="";
+var src_data="";
+var device_name_tbl="";
+var profile_id="";
+var OS_version="";
+var snapFreq="";
+var cpuCount="";
+
+// GLOBAL variable to SUB TAB DATA array
+// create 10x4 two dimensional array
+var graphic_data= new Array(10);
+for ( var i=0; i < graphic_data.length; i++ )
+  graphic_data[i] = new Array(8);
+var graphic_data_num = 0;
+
+//detects the type of browser the user is using
+// OP = Opera
+// IE = Internet Explorer (IE4+)
+// NN = Netscape (Version 4)
+// MO = Mozila (Netscape 6++)
+	if (navigator.userAgent.indexOf("Opera")!=-1 && document.getElementById) browserType ="OP";
+	else if (document.all) browserType ="IE";
+	else if (document.layers) browserType ="NN";
+	else if (!document.all && document.getElementById) browserType ="MO";
+	else browserType = "IE";		//Default if all other conditions fail
+
+
+// ##############  OPEN XML FILE #######################
+function OpenXMLFile() {
+//alert("inside read problem data");
+var pos=0;
+
+if (browserType == "MO" || browserType == "OP"){
+xmlDoc = document.implementation.createDocument("","",null);
+}
+if (browserType == "IE"){
+xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+}
+
+xmlDoc.async=false;
+xmlDoc.load(xmlFileName);
+//alert("document loaded");
+}
+
+
+// ##############  READ OSW DATA #######################
+function ReadOSWData() {
+var gr_data="";
+
+OSWData = xmlDoc.getElementsByTagName('OSW_data');
+//alert ("OSWData length [" + OSWData.length + "]");
+
+//hostname = xmlDoc.getElementsByTagName('OSW_data')[0].childNodes[0].nodeValue;
+profile_id = OSWData[0].getElementsByTagName("profile_id")[0].childNodes[0].nodeValue;
+src_data = OSWData[0].getElementsByTagName("src_data")[0].childNodes[0].nodeValue;
+hostname = OSWData[0].getElementsByTagName("hostname")[0].childNodes[0].nodeValue;
+OS_version = OSWData[0].getElementsByTagName("OS_version")[0].childNodes[0].nodeValue;
+snapFreq = OSWData[0].getElementsByTagName("snapFreq")[0].childNodes[0].nodeValue;
+cpuCount = OSWData[0].getElementsByTagName("cpuCount")[0].childNodes[0].nodeValue;
+device_name_tbl = OSWData[0].getElementsByTagName("device_name_tbl")[0].childNodes[0].nodeValue;
+
+if (device_name_tbl != "NA"){
+device_name_tbl = '<pre class="tabledata">'+device_name_tbl +'</pre>';
+device_name_tbl=device_name_tbl.replace('Device Name','<b>Device Name</b>');
+device_name_tbl=device_name_tbl.replace('Average Service Times in Milliseconds','<b>Average Service Times in Milliseconds</b>');
+}
+else {
+device_name_tbl = "No Data Available";
+}
+
+page_title='<p>OSWatcher<br>System Profiler for '+hostname+'</p>';
+}
+
+
+// ##############  READ OSW DATA BAK#######################
+
+function ReadOSWDataBAK() {
+OpenXMLFile();
+OSWData = xmlDoc.getElementsByTagName('OSW_data');
+//alert ("OSWData length [" + OSWData.length + "]");
+
+hostname = xmlDoc.getElementsByTagName('OSW_data')[0].childNodes[0].nodeValue;
+//hostname = OSWData[0].getElementsByTagName("hostname")[0].childNodes[0].nodeValue;
+page_title='<p>OSW<br>System Profiler for '+hostname+'</p>';
+//alert("hostname is ["+hostname+"] page_title ["+page_title+"]");
+}
+
+// #############################  READ GRAPHIC DATA #####################
+function ReadGraphicData() {
+//alert("in ReadGraphicData");
+var pos=0;
+
+graphicData= xmlDoc.getElementsByTagName('graphic_data');
+graphic_data_num = graphicData.length;
+//alert ("graphicData length [" + graphicData.length + "]");
+
+DB_version = OSWData[0].getElementsByTagName("DB_version")[0].childNodes[0].nodeValue;
+
+for(i=0; i<graphicData.length; i++) {
+pos = parseInt(graphicData[i].attributes.getNamedItem("id").value);
+graphic_data[pos][0] = graphicData[i].attributes.getNamedItem("section").value;
+graphic_data[pos][1] = graphicData[i].attributes.getNamedItem("file_name").value;
+//graphic_data[pos][2] = graphicData[i].attributes.getNamedItem("short_stname").value;
+//graphic_data[pos][3] = graphicData[i].attributes.getNamedItem("type").value;
+//graphic_data[pos][0] = graphicData[i].getElementsByTagName("section")[0].childNodes[0].nodeValue;
+//graphic_data[pos][1] = graphicData[i].getElementsByTagName("file_name")[0].childNodes[0].nodeValue;
+//graphic_data[pos][6] = graphicData[i].getElementsByTagName("java_str")[0].childNodes[0].nodeValue;
+//graphic_data[pos][7] = graphicData[i].getElementsByTagName("st_page")[0].childNodes[0].nodeValue;
+
+//alert("GRAPHIC NUM: [" + pos + "] SECTION: [" + graphic_data[pos][0] + "] FILE NAME: [" + graphic_data[pos][1]+ "]");
+}
+//alert("Entry not found");
+}
+
+// #############################  FIND GRAPHIC DATA #####################
+function FindGraphic(section) {
+//alert("in FindGraphic");
+var pos=0;
+
+for (pos=0;pos<graphic_data_num;pos++){
+if (graphic_data[pos][0]==section){
+table_str='<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >'
++'  <tr>'
++'    <td>'
+//+'	<img border="0" src="OSW_profile_files/OSWg_OS_IO_WPS.gif" width="1000" height="250" align="absmiddle">'
++'	<img border="0" src="OSW_profile_files/'+graphic_data[pos][1]+'" width="1000" height="250" align="absmiddle">'
++'    </td>'
++'</table>'
++'<p class="tabledata">&nbsp;</p>';
+
+//alert ("str: ["+table_str+"]");
+document.write(table_str);
+}
+}
+}
+
+</SCRIPT>
+
+
+</head>
+<body>
+<script>
+OpenXMLFile();
+ReadOSWData();
+ReadGraphicData();
+</script>
+<table border="0" cellpadding="0" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="100%" height="115" id="AutoNumber1">
+  <tr>
+    <td width="25%" rowspan="2">
+    <img border="0" src="OSW_profile_files/watch.gif" width="240" height="100"></td>
+    <td width="50%" rowspan="2" >
+    <div id="pageheader" class="pageheader"><script>document.write(page_title);</script></div>
+	</td>
+    <td width="25%">
+    <p align="center">
+    <img border="0" src="OSW_profile_files/coe_logo.gif" align="middle" width="133" height="40"></td>
+  </tr>
+  <tr>
+    <td width="25%">
+    <p class="pagesubheader" align="center">Profile ID#:<br>
+    <script>document.write(profile_id);</script></p></td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="3">
+    <div class="legalese"><p>Copyright &copy; 2014, Oracle Corporation. All Rights Reserved</p></div>
+    </td>
+  </tr>
+</table>
+<hr color="#336699" size="3"></hr>
+<div class="toc" style="width: 411; height: 275">
+<p class="tocheader"><a name="Table of Contents">Table of Contents</a></td>
+<ul class="tocbullet">
+  <li><a href="#Introduction">Introduction</a></li>
+  <li><a href="#Properties">Properties</a></li>
+  <li><a href="#Operating System CPU Queues">Operating System CPU Queues </a></li>
+  <li><a href="#Operating System CPU Utilization">Operating System CPU Utilization</a></li>
+  <li><a href="#Operating System CPU Other">Operating System CPU Other</a></li>
+  <li><a href="#Operating System Memory">Operating System Memory</a></li>
+  <li><a href="#Operating System I/O">Operating System I/O</a></li>
+  <li><a href="#Operating System I/O Throughput">Operating System I/O Throughput</a></li>
+</ul>
+</div>
+
+<div class="intro">
+<p class="introheader"><a name="Introduction">Introduction</a></p>
+<p>This report was generated by the oswbba utility which is a companion utility to OSWatcher.
+This utility uses vmstat and iostat data collected by OSWatcher and produces graphs of some
+of the most important operating system metrics. Displaying this information graphically gives the
+user the ability to correlate the data and look for trends which may be missed
+by looking at various OS utilities manually. Additionally, oswbba can analyze this data for you and
+automatically look for problems on your system. You should analyze your data and use this html
+graphing profile as a companion for the analysis report.</p>
+<p>This report is divided into sections. Each section may contain one or more related graphs. At the end
+of each section there is a narrative advising the user on what to look for. Some of the graphs may be
+missing because your particular version of UNIX/Linux many not collect this metric</p>
+<p>For more information on how to interpret this data consult the OSWatcher User
+Guide (MOS note #301137.1). As differences exist across UNIX platforms for
+these utilities it is always best to refer to your specific platform's man
+pages.</p>
+
+<p><a href="#Table of Contents">Back</a></p>
+<p>&nbsp;</p>
+</div>
+
+<div class="intro">
+<p class="introheader"><a name="Properties">Properties</a></p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber3">
+  <tr>
+    <td width="15%">Profile ID#:</td>
+    <td width="85%"><script>document.write(profile_id);</script>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="15%">Input Archive:</td>
+    <td width="85%"><script>document.write(src_data);</script>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="15%">Hostname:</td>
+    <td width="85%"><script>document.write(hostname);</script>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="15%">OS Version:</td>
+    <td width="85%"><script>document.write(OS_version);</script>&nbsp;</td>
+  </tr>
+    <tr>
+      <td width="15%">Snapshot Frequency:</td>
+      <td width="85%"><script>document.write(snapFreq);</script>&nbsp;</td>
+  </tr>
+    <tr>
+      <td width="15%">OS CPU Count:</td>
+      <td width="85%"><script>document.write(cpuCount);</script>&nbsp;</td>
+  </tr>
+</table>
+<p><a href="#Table of Contents">Back</a></p>
+<p>&nbsp;</p>
+</div>
+
+<div class="graphic">
+<p class="graphicheader">I.&nbsp; <a name="Operating System CPU Queues">
+Operating System CPU Queues</a></p>
+<p>The following graphs show operating system run queue, processes blocked for resources
+queue and processes swapped queue. Not all Operating Systems report processes
+being swapped so the last graph in this section may be missing.</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Run_Queue.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Block_Queue.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Wait_Queue.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+
+<div class="graphictext">
+<p class="graphicbold">What to look for</p>
+<ul class="graphicbullet">
+  <li>These queue statistics are based on vmstat and are aggregated for multiple CPU
+  systems. The numbers being reported for these queues should be divided by the
+  number of physical CPU’s listed in the properties section. A common mistake is
+  to consider virtual cpu's or threads as real cpu's which they are not.</li>
+  <li>Large run queue. When the number in the run queue is divided by the number
+  of physical cpu's, then this number should not exceed 3-4 processes for any
+  length of time. If it does, you have either processes consuming lots of cpu
+  which can be verified by looking at the output of oswtop listed in your
+  OSWatcher archive, or your system lacks sufficient capacity for your workload.</li>
+  <li>Disk problems may be identified if the number of processes blocked exceeds the number of processes on
+  the run queue. This can also be a result of Oracle dumping lots of trace files because of error conditions
+  on the database.</li>
+  <li>Not all UNIX systems report statistics for the swap queues. A non-zero number in this field indicates
+  that certain threads have been swapped out to the (swap) disk as there was a shortage of physical memory.
+  Even when the system frees the memory, those processes continue to swap out till you make them do something
+  (like just truss the process)</li>
+</ul>
+</div>
+<p><a href="#Table of Contents">Back</a></p>
+<p>&nbsp;</p>
+</div>
+
+<div class="graphic">
+<p class="graphicheader">II.&nbsp; <a name="Operating System CPU Utilization">Operating System CPU Utilization</a></p>
+<p>The following graphs show CPU utilization. On multiple cpu systems these
+statistics are aggregated across all processors.</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Cpu_Idle.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Cpu_System.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Cpu_User.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Cpu_Wa.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+
+<div class="graphictext">
+<p class="graphicbold">What to look for</p>
+<ul class="graphicbullet">
+  <li>CPU utilization. The amount of time spent running system code should not
+  exceed 30%, for any length of time, especially if idle time is close to 0%.</li>
+  <li>A combination of large run queue with no idle CPU is an indication that the system has insufficient CPU capacity.</li>
+  <li>The CPU Utilization: Wait I/O graph, if it exists on you version of UNIX/Linux, can be a strong indication that
+  there is severe I/O blocking occuring outside the database if a significant amount of time is being spent waiting on I/O.</li>
+  </ul>
+</div>
+<p><a href="#Table of Contents">Back</a></p>
+<p>&nbsp;</p>
+</div>
+
+<div class="graphic">
+<p class="graphicheader">III.&nbsp; <a name="Operating System CPU Other">Operating System CPU Other</a></p>
+<p>The following graphs show processor statistics for context switches and
+device interrupts. This information is useful if you suspect you have a CPU
+problem.</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Context_Switches.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Cpu_Interrupts.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+
+<div class="graphictext">
+<p class="graphicbold">What to look for</p>
+<ul class="graphicbullet">
+  <li>Unusually high values for device interrupts can be further investigated with iostat.&nbsp; I/O issues affecting the database should be reflected in I/O related wait events in section IV above.
+  Operating System I/O is detailed in Section X below.</li>
+  <li>Any significant increase in context switches, such as when context
+  switches are a lot higher than the disk I/O and network packet rate, should be cause
+  for further investigation.</li>
+</ul>
+</div>
+<p><a href="#Table of Contents">Back</a></p>
+<p>&nbsp;</p>
+</div>
+
+<div class="graphic">
+<p class="graphicheader">IV.&nbsp; <a name="Operating System Memory">Operating System Memory</a></p>
+<p>The following graphs show operating system memory statistics.</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Memory_Free.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Memory_Swap.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Memory_Scan_Rate.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_Memory_Page_In_Rate.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+
+<div class="graphictext">
+<p class="graphicbold">What to look for</p>
+<ul class="graphicbullet">
+  <li>Decreasing values for free memory and swap over time can indicate memory leaks. You can look for memory leaks by running
+  oswbba with the -mem_all option.</li>
+  <li>The swap memory should never approach zero.</li>
+  <li>Memory bottlenecks are determined by the scan rate (sr) . The scan rate is
+  the pages scanned by the clock algorithm per second. If the scan rate (sr) is
+  continuously over 200 pages per second then there is a memory shortage.
+  Unfortunately, not all UNIX systems report scan rate. Unfortunately Linux does not
+  report scan rate</li>
+  <li>On Linux, it is important to look at the page in graph. A large value that is
+  continuous can indicate a serious memory issue.
+</ul>
+</div>
+<p><a href="#Table of Contents">Back</a></p>
+<p>&nbsp;</p>
+</div>
+
+
+<div class="graphic" style="width: 1000; height: 1596">
+<p class="graphicheader">V.&nbsp; <a name="Operating System I/O">Operating System I/O</a></p>
+<p>The following graphs show I/O statistics for the top 3 devices in terms of service time,
+percent busy, reads per second and writes per second. Only the top 3 devices are graphed.
+</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_ST.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_PB.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_RPS.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_WPS.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<div class="graphictext">
+<p class="graphicbold">What to look for</p>
+<ul class="graphicbullet">
+  <li>Average service times greater than 10msec for long duration.</li>
+  <li>Percent busy should not approach 100% for any length of time. Response times start to become significantly longer once device
+  utilization climbs over 50%</li>
+  <li>Some UNIX systems report queue time included in service time, others do
+  not. Check your systems man pages under iostat for verification.</li>
+</ul>
+</div>
+<div class="graphic" style="width: 1000; height: 1596">
+<p class="graphicheader">V.&nbsp; <a name="Operating System I/O Throughput">Operating System I/O Throughput</a></p>
+<p>The following graphs show I/O throughput for the top 3 devices in terms of total throughput and also the top
+3 busiest devices graphed verses throughput.</p>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_TPS.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_PBTP_1.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_PBTP_2.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="1000" height="250" class="graphicmissing" >
+  <tr>
+    <td>
+	<img border="0" src="OSW_profile_files/OSWg_OS_IO_PBTP_3.gif" width="1000" height="250" align="absmiddle">
+    </td>
+</table>
+<p class="emptyline">&nbsp;</p>
+<div class="graphictext">
+<p class="graphicbold">What to look for</p>
+<ul class="graphicbullet">
+  <li> If you have a storage array, then the only reliable metric from iostat is throughput. This is because writes are reported as complete before they
+  are written to disk because of all the caching associated with storage arrays. In this case, focus on the throughput as a function of device utilization.
+  If your device is 100 percent busy and only pulling 500Kbytes/sec and it is rated for 12Mbytes/sec you can tell some problem exists within I/O subsystem.</li>
+</ul>
+</div>
+<p><a href="#Table of Contents">Back</a></p>
+</div>
+<table border="0" class="tableborder"  cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+  	<td width="20%">
+    <p>&nbsp;</p>
+  	</td>
+    <td width="60%" align="center">
+	<p class="tabledata">&nbsp;</p>
+	<p class="tableheader">I/O Device Summary</p>
+	<p class="tabledata">&nbsp;</p>
+	<script>document.write(device_name_tbl);</script>
+	<p class="tabledata">&nbsp;</p>
+	</td>
+  	<td width="20%">
+    <p>&nbsp;</p>
+  	</td>
+  </tr>
+</table>
+<p class="tabledata">&nbsp;</p>
+</body>
+</html>

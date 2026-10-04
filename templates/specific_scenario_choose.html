@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('selected_specific_scenarios',choice=choice) }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+
+       {% for scenario in scenarios %}
+
+              <input type="checkbox" id="load_scenarios" name="load_scenarios" value="{{ scenario }}"><b>{{ scenario }}</b></br></br>
+
+       {% endfor %}
+
+        <dd><input type=submit class="button" value="Proceed">
+      </dl>
+    </form>
+
+    <hr color="lightblue">
+
+  {% endif %}
+
+{% endblock %}

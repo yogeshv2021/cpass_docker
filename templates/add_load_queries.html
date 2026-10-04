@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+   {% include "database_layout.html" %}
+
+    <form action="{{ url_for('save_add_queries') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Queries Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="load alias name">Load Alias Name</label></br>
+       <input type="text" class="input" id="load_alias_name" name="load_alias_name" placeholder="Enter an Alias Name for Load"  value="" required></br>
+
+       <label for="load queries name">Load Queries</label></br>
+       <textarea rows="4" cols="50" name="load_queries_name">Enter load queries here separated by newline...Don't include semi-colon in the queries</textarea></br>
+
+       <input type=submit class="button" value=Add>
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('save_delete_product_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <meta id="my_entries_data" data-entries="{{ entries }}">
+
+       {% for key,value in prod_server_map.items() %}
+
+          <dd><input type="radio" name="load_server" value="{{key}}" onclick='selectProducts("product","{{ key }}")'><b>{{key}}</b></br></br>
+
+       {% endfor %}
+
+       <div id="product" style="display:none">
+       </div>
+
+        <input type=submit class="button" value=Select>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

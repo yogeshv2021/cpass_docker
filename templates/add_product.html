@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('add_product_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{ headings[0] }}</br></br>
+
+         <dd><input type="radio" name="load_add" value="" onclick='addInstanceHideShowChange("existing_server","new_server")'><b>Add a New Product on Existing Server</b></br></br>
+         <dd><input type="radio" name="load_add" value="" onclick='addInstanceHideShowChange("new_server","existing_server")'><b>Add a New Product on New Server</b></br></br>
+
+         <div id="existing_server" style="display:none">
+           
+             Choose an existing server from the following configured servers</br>
+            {% for key,value in servers.items() %}
+                   <input type="radio" name="load_server" value="{{key}}" required><b>{{key}}</b></br></br>
+            {% endfor %}
+
+         </div>
+
+         <div id="new_server" style="display:none">
+
+              New Server
+
+         </div>
+     
+      </dl>
+        <input type="submit" class="button" value=Next>
+   </form>
+
+    <hr color="lightblue">
+    <a href="{{ url_for('add_instance') }}"><button type="button" class="button">Add Instance</button></a>
+
+  {% endif %}
+
+{% endblock %}

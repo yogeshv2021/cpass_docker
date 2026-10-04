@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <hr color="lightblue">
+    <a href="{{ url_for('add_product') }}"><button type="button" class="button">Add Product</button></a>
+    <a href="{{ url_for('edit_product') }}"><button type="button" class="button">Edit Product</button></a>
+    <a href="{{ url_for('delete_product') }}"><button type="button" class="button">Delete Product</button></a>
+
+  {% endif %}
+
+{% endblock %}

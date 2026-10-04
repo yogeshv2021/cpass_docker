@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+       {% for key,value in entries.items() %}
+
+         {% set server_product_instance_list = key.split(';') %}
+
+          <b>{{server_product_instance_list[2]}}</b></br>
+
+          <table border='1' width='80%'>
+
+          <tr><th>Server IP</th><td>{{value[0]}}</td></tr>
+          <tr><th>Starter Script</th><td>{{value[3]}}</td></tr>
+          <tr><th>Logger Path</th><td>{{value[10]}}</td></tr>
+
+          </table></br>
+
+        {% endfor %}
+
+      </dl>
+
+    <a href="{{ url_for('edit_instance',entries=entries) }}"><button type="button" class="button">Edit Instance</button></a>
+    <a href="{{ url_for('add_instance',entries=entries) }}"><button type="button" class="button">Add Instance</button></a>
+    <a href="{{ url_for('delete_instance',entries=entries) }}"><button type="button" class="button">Delete Instance</button></a>
+    <a href="{{ url_for('copy_instance',entries=entries) }}"><button type="button" class="button">Copy Instance</button></a>
+
+
+  {% endif %}
+
+{% endblock %}

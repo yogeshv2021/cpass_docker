@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('simulator_choices') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="1" ><b>Start Entire Load Scenarios</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="2" ><b>Set Load Call Rate</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="3" ><b>Pause Load</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="4" ><b>Restart Load</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="5" ><b>Stop Load Scenarios</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="6" ><b>Get Load Stats</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="7" ><b>Start Specific Load Scenario</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="8" ><b>Set Call Rate for Specific Load Scenario</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="9" ><b>Pause Specific Load Scenario</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="10" ><b>Restart Specific Load Scenario</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="11" ><b>Stop Specific Load Scenario</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="12" ><b>Get Stats for Specific Load Scenario</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="13" ><b>Generate Load Stats Report</b></br></br>
+
+              &emsp;<input type="radio" name="simulator_choices" value="14" ><b>Disconnect from Load Simulators</b></br></br>
+
+        <dd><input type=submit class="button" value="Choose">
+      </dl>
+    </form>
+
+    <hr color="lightblue">
+
+    <a href="{{ url_for('bring_up_applications') }}"><button type="button" class="button">Skip</button></a>
+
+    <button type="button" class="button" onclick='processCheck("processid","{{ url_for('active_process_check') }}")'>Active Process Check</button>
+
+    <button type="button" class="button" onclick='processCheck("processid","{{ url_for('start_simulator_alive_check') }}")'>Start Scenarios Alive Check</button>
+
+    <button type="button" class="button" onclick='processCheck("processid","{{ url_for('stop_simulator_alive_check') }}")'>Stop Scenarios Alive Check</button>
+
+    <div id="processid" style="display:none">
+    </div>
+
+  {% endif %}
+
+{% endblock %}

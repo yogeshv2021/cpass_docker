@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('save_edit_instance_config',entries=entries) }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="instance name">Instance Name</label></br>
+       <input type="text" class="input_read_only" id="instance_name" name="instance_name" placeholder="instance_name"  value="{{instance_config[2]}}" readonly></br>
+
+       <label for="starter script">Starter Script</label></br>
+       <input type="text" class="input" id="starter_script" name="starter_script" placeholder="starter_script"  value="{{instance_config[3]}}" required></br>
+
+       <label for="instance logger">Instance Logger Path</label></br>
+       <input type="text" class="input" id="instance_logger" name="instance_logger" placeholder="instance_logger"  value="{{instance_config[10]}}" required></br>
+
+
+       <label for="dynamic delete mode">Dynamic Delete Mode</label>
+
+       {% if instance_config[11]==0 %}
+       <select id="dynamic_delete_mode" name="dynamic_delete_mode" class="input" value="Disable" required>
+       {% else %}
+       <select id="dynamic_delete_mode" name="dynamic_delete_mode" class="input" value="Enable" required>
+       {% endif %}
+
+         <option value="0">Disable</option>
+         <option value="1">Enable</option>
+      </select>
+
+       <label for="delete file count">File Count not to be deleted if dynamic delete mode active</label></br>
+       <input type="text" class="input" id="delete_file_count" name="delete_file_count" placeholder="delete_file_count"  value="{{instance_config[12]}}" required></br>
+
+       <hr color="gray">
+       <h2>Other Configuration Values</h2></br>
+       <hr color="gray">
+
+       <label for="server name">Server Name</label></br>
+       <input type="text" class="input_read_only" id="server_name" name="server_name" placeholder="server_name"  value="{{instance_config[0]}}" readonly></br>
+
+       <label for="product name">Product Name</label></br>
+       <input type="text" class="input_read_only" id="product_name" name="product_name" placeholder="product_name"  value="{{instance_config[1]}}" readonly></br>
+
+       <label for="server type">Server Type</label></br>
+       <input type="text" class="input_read_only" id="server_type" name="server_type" placeholder="server_type"  value="{{instance_config[4]}}" readonly></br>
+
+       <label for="user name">User Name of Server</label></br>
+       <input type="text" class="input_read_only" id="user_name" name="user_name" placeholder="user_name"  value="{{instance_config[5]}}" readonly></br>
+
+       <label for="wait time">Wait time after starting product instance</label></br>
+       <input type="text" class="input_read_only" id="wait_time" name="wait_time" placeholder="wait_time"  value="{{instance_config[6]}}" readonly></br>
+
+       <label for="time interval">Time Interval between stats capturing</label></br>
+       <input type="text" class="input_read_only" id="time_interval" name="time_interval" placeholder="time_interval"  value="{{instance_config[7]}}" readonly></br>
+
+       <label for="load stats path">Load Statistics Path</label></br>
+       <input type="text" class="input_read_only" id="load_stats_path" name="load_stats_path" placeholder="load_stats_path"  value="{{instance_config[9]}}" readonly></br>
+
+       <label for="server id">Server ID</label></br>
+       <input type="text" class="input_read_only" id="server_id" name="server_id" placeholder="server_id"  value="{{instance_config[14]}}" readonly></br>
+
+       <label for="server mode">Server Mode</label>
+       <input type="text" class="input_read_only" id="server_mode" name="server_mode" placeholder="server_mode"  value="{{instance_config[15]}}" readonly></br>
+
+       <label for="delete frequency">Log File Delete Frequency Interval</label></br>
+       <input type="text" class="input_read_only" id="delete_frequency" name="delete_frequency" placeholder="delete_frequency"  value="{{instance_config[13]}}" readonly></br>
+
+        <input type=submit class="button" value=Edit>
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

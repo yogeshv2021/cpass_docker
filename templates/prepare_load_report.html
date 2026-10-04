@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('proceed_load_report_preparation') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt><h4>{{headings[0]}}</h4></br></br>
+
+    <div>
+
+
+       <label for=product by">Load Report Prepared for product</label></br>
+       <input type="text" class="input" id="product_by" name="product_by" placeholder=""  value="" required></br>
+
+       <label for="prepared by">Load Report Prepared by</label></br>
+       <input type="text" class="input" id="prepared_by" name="prepared_by" placeholder=""  value="" required></br>
+
+       <label for="reviewed by">Load Report Reviewed by</label></br>
+       <input type="text" class="input" id="reviewed_by" name="reviewed_by" placeholder=""  value="" required></br>
+
+       <label for="approved by">Load Report Approved by</label></br>
+       <input type="text" class="input" id="approved_by" name="approved_by" placeholder=""  value="" required></br>
+
+       <label for="start date">Load Start Date</label></br>
+       <input type="date" name="start_date" class="input" placeholder=""  value="" required></br>
+
+       <label for="report date">Load Approved Date</label></br>
+       <input type="date" name="report_date" class="input" placeholder=""  value="" required></br>
+
+       <label for="stats path">Select load stats path to generate report</label></br>
+       <select id="stats_path" name="stats_path" class="input" value="Disable" required>
+         <option value="none">--select--</option>
+
+        {% for path in dir %}
+         <option value="{{ load_stats_base_path }}/{{ path }}">{{ path }}</option>
+        {% endfor %}
+       </select>
+
+       <label for=load duration">Load Duration</label></br>
+       <input type="text" class="input" id="load_duration" name="load_duration" placeholder=""  value="" required></br>
+
+       <label for="status">Load Status</label></br>
+       <select id="status_result" name="status_result" class="input" value="Disable" required>
+         <option value="none">--select--</option>
+         <option value="PASS">PASS</option>
+         <option value="FAIL">FAIL</option>
+       </select>
+
+       <label for="comments">Load Summary</label></br></br>
+       <textarea rows="4" cols="50" name="comment">Enter your comments on load here...</textarea></br>
+
+       <label for="dbstatus">Load DB Report Status</label></br>
+       <select id="dbstatus_result" name="dbstatus_result" class="input" value="Disable" required>
+         <option value="none">--select--</option>
+         <option value="PASS">PASS</option>
+         <option value="FAIL">FAIL</option>
+         <option value="NA">NA</option>
+         <option value="PENDING">PENDING</option>
+       </select></br>
+
+       <label for="dbcomments">Load DB Report Summary</label></br></br>
+       <textarea rows="4" cols="50" name="dbcomment">Enter your comments on load db report here...</textarea></br>
+
+       <input type=submit class="button" value="Prepare Report">
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

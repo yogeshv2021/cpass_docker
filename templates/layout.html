@@ -1,0 +1,65 @@
+<!doctype html>
+
+<title>Load Framework</title>
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+<script src="{{ url_for('static', filename='behaviour.js') }}"></script>
+
+<script src="{{ url_for('static', filename='jquery_min.js') }}"></script>
+
+<div class=page>
+
+  <h1>Load Framework</h1>
+
+  <div class=metanav>
+
+  {% if not session.logged_in %}
+
+    <a href="{{ url_for('login') }}">Log In</a>
+
+  {% else %}
+
+   <div id="navbar">
+    <a href="{{ url_for('show_config') }}" >Application Config</a>
+    <a href="{{ url_for('show_sim_config') }}" >Simulator Config</a>
+    <a href="{{ url_for('start_load') }}" >Start Load</a>
+    <a href="{{ url_for('get_load_stats') }}" >Load Stats</a>
+    <a href="{{ url_for('stop_entire_load') }}" >Stop Load</a>
+    <a href="{{ url_for('shutdown') }}" >Shutdown</a></br>
+    <a href="{{ url_for('prepare_load_report') }}" >Prepare Report</a>
+    <a href="{{ url_for('edit_static_report') }}" >Edit Static Report</a>
+    <a href="{{ url_for('download_load_report') }}" >Download Report</a>
+    <a href="{{ url_for('logout') }}" >Log Out</a>
+    <span style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776;DB
+  </div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div class="overlay-content">
+    <table><tr>
+    <td align="center"><a href="{{ url_for('add_alias') }}" >Add DB Details</a></td>
+    <td align="center"><a href="{{ url_for('edit_alias') }}" >Edit DB Details</a></td>
+    <td align="center"><a href="{{ url_for('delete_alias') }}" >Delete DB Details</a></td></tr>
+    <tr>
+    <td align="center"><a href="{{ url_for('add_load_queries') }}" >Add Queries</a></td>
+    <td align="center"><a href="{{ url_for('edit_load_queries') }}" >Edit Queries</a></td>
+    <td align="center"><a href="{{ url_for('delete_load_queries') }}" >Delete Queries</a></td></tr>
+    <tr><td align="center" colspan="3"><a href="{{ url_for('execute_queries') }}" >Execute Queries</a></td></tr>
+   </table>
+  </div>
+</div>
+
+
+  {% endif %}
+
+  </div>
+
+  {% for message in get_flashed_messages() %}
+
+    <div class=flash>{{ message }}</div>
+
+  {% endfor %}
+
+  {% block body %}{% endblock %}
+</div>

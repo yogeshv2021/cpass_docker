@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+    <form action="{{ url_for('show_scenarios_config') }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+        <meta id="my_entries_data" data-entries="{{ entries }}">
+
+       {% for key,keyvalue in same_sim_prod_in_diff_server_map.items() %}
+
+              <meta id="my_simulators_data" data-simulators="{{ simulators }}">
+
+              <input type="radio" name="load_simulator" value="" onclick='showSimulatorTypes("simulator_list","{{ key }}","{{ keyvalue }}")' required><b>{{ key }}</b></br></br>
+
+       {% endfor %}
+
+       <div id="simulator_list" style="display:none">
+
+           <label for="simulator">Choose the type of simulator</label></br>
+
+       </div>
+
+       <div id="server_list" style="display:none">
+
+       </div>
+
+       <div id="product_instance_list" style="display:none">
+       </div>
+
+        <dd><input type=submit class="button" value=Select>
+      </dl>
+    </form>
+
+    <hr color="lightblue">
+    <a href="{{ url_for('show_server_operations') }}"><button type="button" class="button">Server configuration</button></a>
+
+  {% endif %}
+
+{% endblock %}

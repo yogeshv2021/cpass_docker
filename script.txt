@@ -1,0 +1,3 @@
+#!/bin/bash
+export LD_LIBRARY_PATH=/usr/local/bin
+/opt/sipp/sipp-3.3/sipp -s 2010 -sf /opt/sipp/sipp-3.3/PMEDIA/SCEN/Voicemail_deposition.xml -inf /opt/sipp/sipp-3.3/PMEDIA/INF/Voicemail_deposition.csv -i 192.168.151.93 -cp 5170 -r 2 -rp 1s -m 388800 -l 388800 -trace_err -error_file /opt/sipp/sipp-3.3/PMEDIA/ERROR/Voicemail_deposition.log -trace_shortmsg -shortmessage_file /opt/sipp/sipp-3.3/PMEDIA/SHORTMSG/Voicemail_deposition.log -trace_stat -stat_delimiter , -stf /opt/sipp/sipp-3.3/PMEDIA/STAT/Voicemail_deposition.csv -nr -skip_rlimit 192.168.151.110:6080 -bg

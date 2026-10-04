@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+   {% include "database_layout.html" %}
+
+    <form action="{{ url_for('save_add_alias_config',server=server) }}" method=post class=entries>
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+    <div>
+
+       <label for="alias name">Alias Name</label></br>
+       <input type="text" class="input" id="alias_name" name="alias_name" placeholder="Enter Alias Name for DB Connection String"  value="" required></br>
+
+       <label for="db type">Database Type</label>
+
+       <select id="db_type" name="db_type" class="input" value="" required>
+         <option value="NONE">--Select--</option>
+         <option value="ORACLE">ORACLE</option>
+         <option value="MSSQL">MSSQL</option>
+         <option value="MYSQL">MYSQL</option>
+      </select>
+
+       <label for="user name">User Name</label></br>
+       <input type="text" class="input" id="user_name" name="user_name" placeholder="Enter User Name of DB"  value="" required></br>
+
+       <label for="Password">Password</label></br>
+       <input type="text" class="input" id="password" name="password" placeholder="Enter Password of DB"  value="" required></br>
+
+       <label for="database ip">Database IP Address</label></br>
+       <input type="text" class="input" id="database_ip" name="database_ip" placeholder="Enter IP Address of the DB"  value="" required></br>
+
+       <label for="service name">Service Name</label></br>
+       <input type="text" class="input" id="service_name" name="service_name" placeholder="Enter Service Name to be connected"  value="" required></br>
+
+       <input type=submit class="button" value=Add>
+
+    </div>
+
+      </dl>
+    </form>
+
+  {% endif %}
+
+{% endblock %}

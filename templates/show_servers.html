@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  {% if session.logged_in %}
+
+      <dl>
+        <dt><h2>Load Configuration:</h2></br>
+        <dt>{{headings[0]}}</br></br>
+
+       <table border='1'>
+
+       {% for server in servers %}
+
+          <tr><th>{{ server }}</th></tr>
+
+        {% endfor %}
+
+       </table></br>
+
+      </dl>
+
+    <a href="{{ url_for('edit_instance',entries=entries) }}"><button type="button" class="button">Edit Instance</button></a>
+    <a href="{{ url_for('add_instance',entries=entries) }}"><button type="button" class="button">Add Instance</button></a>
+    <a href="{{ url_for('delete_instance',entries=entries) }}"><button type="button" class="button">Delete Instance</button></a>
+    <a href="{{ url_for('copy_instance',entries=entries) }}"><button type="button" class="button">Copy Instance</button></a>
+
+
+  {% endif %}
+
+{% endblock %}
